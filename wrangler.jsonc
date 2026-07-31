@@ -1,0 +1,18 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "cv-manager",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-07-31",
+  "kv_namespaces": [
+    {
+      "binding": "CV_STORAGE",
+      "id": "<REPLACE_WITH_KV_ID_FROM_CLI>"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "CV_BUCKET",
+      "bucket_name": "cv-assets"
+    }
+  ]
+}
