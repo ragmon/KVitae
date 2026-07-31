@@ -1,5 +1,17 @@
 {
   "name": "cv-manager",
+  "version": "0.1.0",
+  "description": "Hono-based CV manager on Cloudflare Workers (KV + R2)",
+  "author": "Arthur Rahimov <arthur.ragimov@gmail.com> (https://github.com/ragmon)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ragmon/KVitae.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ragmon/KVitae/issues"
+  },
+  "homepage": "https://github.com/ragmon/KVitae#readme",
   "type": "module",
   "scripts": {
     "dev": "wrangler dev",

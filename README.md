@@ -1,6 +1,9 @@
-# CV Manager (Hono + Cloudflare Workers)
+# KVitae — CV Manager (Hono + Cloudflare Workers)
 
 Serverless CV backend on Cloudflare Workers with KV (JSON data) and R2 (HTML/assets).
+
+**Author:** [Arthur Rahimov](https://github.com/ragmon)  
+**License:** [MIT](./LICENSE)
 
 ## Setup
 
@@ -78,3 +81,9 @@ curl -X PUT https://your-worker-url.workers.dev/api/cv \
   -H "Content-Type: application/json" \
   -d '{"name": "Your Name", "title": "Full-Stack Developer", "skills": ["Vue.js", "NestJS", "Hono"]}'
 ```
+
+## License
+
+This project is licensed under the MIT License — see [LICENSE](./LICENSE) for details.
+
+Copyright © 2026 Arthur Rahimov.
