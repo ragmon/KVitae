@@ -23,6 +23,14 @@ node_modules/
 # private CV payload (use cv.example.json as a starting point)
 cv.json
 
+# private media — upload to R2, do not commit
+media/
+avatar.*
+*.local.png
+*.local.jpg
+*.local.jpeg
+*.local.webp
+
 # logs
 logs/
 *.log
