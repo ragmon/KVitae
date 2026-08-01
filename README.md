@@ -52,6 +52,28 @@ Local:
 npm run dev
 ```
 
+## CI/CD (GitHub Actions)
+
+On every push to `main`, `.github/workflows/deploy.yml` deploys the Worker with Wrangler.
+
+### Required repository secrets
+
+| Secret | Value |
+|--------|--------|
+| `CLOUDFLARE_API_TOKEN` | API token with **Workers Scripts Edit**, **Account Settings Read**, **Workers KV Storage Edit**, **Workers R2 Storage Edit** |
+| `CLOUDFLARE_ACCOUNT_ID` | `b21935a261bd227400d32c634a32fc20` |
+
+Create a token: [Cloudflare API Tokens](https://dash.cloudflare.com/profile/api-tokens) → **Create Token** → use the **Edit Cloudflare Workers** template (or custom with the permissions above).
+
+Then set secrets:
+
+```bash
+gh secret set CLOUDFLARE_API_TOKEN
+gh secret set CLOUDFLARE_ACCOUNT_ID --body "b21935a261bd227400d32c634a32fc20"
+```
+
+Manual deploy from Actions: **Actions** → **Deploy** → **Run workflow**.
+
 ## API
 
 | Method | Path | Auth | Description |
