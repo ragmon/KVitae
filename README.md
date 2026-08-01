@@ -74,6 +74,46 @@ gh secret set CLOUDFLARE_ACCOUNT_ID --body "b21935a261bd227400d32c634a32fc20"
 
 Manual deploy from Actions: **Actions** → **Deploy** → **Run workflow**.
 
+## Cloudflare Access (private browsing)
+
+Protect `workers.dev` so only your email can open the CV in a browser.
+
+### 1. Enable Access on the Worker
+
+1. Open [cv-manager → Settings → Domains & Routes](https://dash.cloudflare.com/b21935a261bd227400d32c634a32fc20/workers/services/view/cv-manager/production/settings)
+2. On the `workers.dev` row, click **Enable Cloudflare Access**
+3. Click **Manage Cloudflare Access** and allow only your email (e.g. `arthur.ragimov@gmail.com`)
+4. Copy **Application Audience (AUD)** and **Team domain** from the Access UI
+
+### 2. Set Worker vars (then redeploy)
+
+```bash
+npx wrangler secret put POLICY_AUD   # optional: can also be a plain var
+# or add to wrangler.jsonc under "vars":
+```
+
+```jsonc
+"vars": {
+  "POLICY_AUD": "<AUD from Access>",
+  "TEAM_DOMAIN": "https://<your-team>.cloudflareaccess.com"
+}
+```
+
+With both set, the Worker also verifies the Access JWT (`Cf-Access-Jwt-Assertion`).
+
+### 3. API / curl after Access is on
+
+Browser login does not apply to `curl`. Create a [Service Token](https://one.dash.cloudflare.com/) under **Access → Service Auth**, attach it to the Access policy, then:
+
+```bash
+curl -X PUT https://cv-manager.arthur-ragimov.workers.dev/api/cv \
+  -H "CF-Access-Client-Id: YOUR_SERVICE_TOKEN_ID" \
+  -H "CF-Access-Client-Secret: YOUR_SERVICE_TOKEN_SECRET" \
+  -H "Authorization: Bearer YOUR_AUTH_SECRET" \
+  -H "Content-Type: application/json" \
+  --data-binary @cv.json
+```
+
 ## CV content
 
 | File | Purpose |
