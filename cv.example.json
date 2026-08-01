@@ -1,0 +1,74 @@
+{
+  "name": "Jane Doe",
+  "role": "Fullstack Developer · AI & Automation",
+  "status": "Available for projects",
+  "avatar": "/media/avatar.jpg",
+  "contact": {
+    "phone": "+00 0 00 00 00 00",
+    "email": "you@example.com",
+    "website": "https://example.com",
+    "location": "City, Region, Country",
+    "linkedin": "https://www.linkedin.com/in/example",
+    "linkedinLabel": "in/example",
+    "github": "https://github.com/example",
+    "githubLabel": "github/example"
+  },
+  "techStack": [
+    { "label": "Backend", "items": ["NestJS", "Node.js", "Laravel"] },
+    { "label": "Languages", "items": ["TypeScript", "JavaScript", "Python", "SQL"] },
+    { "label": "Data", "items": ["PostgreSQL", "MySQL", "Redis"] },
+    { "label": "AI & Automation", "items": ["n8n", "Workers AI"] },
+    { "label": "Infra", "items": ["Docker", "Git", "Cloudflare"] }
+  ],
+  "coreSkills": [
+    "Backend & API",
+    "AI & Automation",
+    "Microservices",
+    "REST / OpenAPI",
+    "Testing",
+    "DevOps & Docker"
+  ],
+  "education": [
+    {
+      "title": "Bachelor of Computer Science",
+      "detail": "Example University\nCity, Country · 2010–2014"
+    }
+  ],
+  "languages": [
+    { "name": "English", "level": "Fluent" },
+    { "name": "Dutch", "level": "Intermediate" }
+  ],
+  "availability": [
+    { "label": "Freelance / B2B", "detail": "remote or hybrid projects" },
+    { "label": "Employment", "detail": "part-time or full-time" }
+  ],
+  "summary": "Reliable full-stack developer with a strong backend focus. Builds APIs, automates workflows, and integrates AI-driven solutions.",
+  "experience": [
+    {
+      "title": "Senior Backend Developer — Example Co",
+      "dates": "2023 – Present",
+      "location": "Remote",
+      "bullets": [
+        "Designed and shipped scalable APIs.",
+        "Improved reliability with automated tests and observability."
+      ]
+    },
+    {
+      "title": "Full-Stack Developer — Acme Ltd",
+      "dates": "2018 – 2023",
+      "location": "City, Country",
+      "bullets": [
+        "Built product features end-to-end.",
+        "Maintained Docker-based deployment workflows."
+      ]
+    }
+  ],
+  "volunteering": "Contributes to community and open-source initiatives outside paid work.",
+  "references": [
+    {
+      "name": "Alex Smith",
+      "detail": "Example Co / Engineering Manager\nin/alex-smith"
+    }
+  ],
+  "footer": "Example Development · Reg 00000000 · City, Country"
+}

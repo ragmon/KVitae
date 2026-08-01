@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* ============ DESIGN TOKENS — edit here to retheme the whole doc ============ */
+:root{
+  --navy-900:#0b1220;
+  --navy-800:#161f3d;
+  --purple-500:#7c6ff0;
+  --purple-400:#a79bff;
+  --purple-tint:#f2f0ff;
+  --ink:#1c2333;
+  --muted:#5b6478;
+  --line:#e7e5f3;
+  --bg:#ffffff;
+  --page-bg:#eeecfa;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:'Inter',sans-serif;
+  color:var(--ink);
+  background:var(--page-bg);
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
+.sheet{
+  max-width:880px;
+  margin:32px auto;
+  background:var(--bg);
+  box-shadow:0 24px 70px rgba(20,20,70,.18);
+}
+.print-btn{
+  position:fixed; top:20px; right:20px; z-index:50;
+  background:var(--navy-900); color:#fff; border:none;
+  padding:12px 22px; border-radius:30px; font-family:'Inter',sans-serif;
+  font-weight:600; font-size:13.5px; cursor:pointer;
+  box-shadow:0 10px 24px rgba(11,18,32,.35);
+}
+.print-btn:hover{background:var(--purple-500);}
+
+/* ============ HEADER ============ */
+header.hero{
+  background:linear-gradient(135deg,var(--navy-900) 0%,var(--navy-800) 100%);
+  color:#fff; padding:46px 48px 40px;
+  display:flex; gap:28px; align-items:center;
+  position:relative; overflow:hidden;
+}
+header.hero::before{
+  content:""; position:absolute; right:-80px; top:-100px;
+  width:280px; height:280px; background:var(--purple-500);
+  opacity:.32; border-radius:38% 62% 55% 45%/48% 40% 60% 52%;
+}
+header.hero::after{
+  content:""; position:absolute; left:36%; bottom:-130px;
+  width:190px; height:190px; background:var(--purple-400);
+  opacity:.14; border-radius:50%;
+}
+.avatar{
+  width:106px; height:106px; border-radius:50%;
+  object-fit:cover; border:3px solid var(--purple-400);
+  position:relative; z-index:1; flex-shrink:0;
+}
+.headline{position:relative; z-index:1;}
+.headline h1{
+  font-family:'Space Grotesk',sans-serif; font-size:32px;
+  margin:0 0 4px; font-weight:700; letter-spacing:.3px;
+}
+.headline .role{margin:0 0 6px; color:var(--purple-400); font-weight:500; font-size:15px;}
+.status-badge{
+  display:inline-flex; align-items:center; gap:6px;
+  font-family:'JetBrains Mono',monospace; font-size:11px;
+  background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18);
+  padding:4px 10px; border-radius:20px; margin-bottom:14px; color:#d9d6f9;
+}
+.status-badge .dot{width:6px; height:6px; border-radius:50%; background:#5ee6a8;}
+.contact-row{display:flex; flex-wrap:wrap; gap:8px 18px; font-size:13px;}
+.contact-row a, .contact-row span{color:#dcdaf7; text-decoration:none;}
+.contact-row a:hover{color:#fff;}
+
+/* ============ LAYOUT ============ */
+main{padding:44px 48px 20px;}
+.layout{display:grid; grid-template-columns:246px 1fr; gap:44px;}
+
+.eyebrow{
+  font-family:'JetBrains Mono',monospace; font-size:11px;
+  color:var(--purple-500); letter-spacing:1px; margin:0 0 4px;
+}
+.section-title{
+  font-family:'Space Grotesk',sans-serif; font-size:15px;
+  color:var(--ink); font-weight:600; margin:0 0 14px; padding-bottom:8px;
+  border-bottom:2px solid var(--line);
+}
+.side > div{margin-bottom:32px;}
+.side p{font-size:13px; line-height:1.6; color:var(--muted); margin:0;}
+
+/* tag chips (tech / skills) */
+.tag-group{margin-bottom:14px;}
+.tag-group h5{
+  font-family:'JetBrains Mono',monospace; font-size:10.5px; text-transform:uppercase;
+  letter-spacing:.6px; color:var(--muted); margin:0 0 8px;
+}
+.tags{display:flex; flex-wrap:wrap; gap:7px;}
+.tag{
+  font-family:'JetBrains Mono',monospace; font-size:11.5px;
+  background:var(--purple-tint); color:var(--navy-900);
+  padding:5px 10px; border-radius:6px; border:1px solid var(--line);
+  transition:transform .15s ease, background .15s ease, color .15s ease;
+}
+.tag:hover{background:var(--purple-500); color:#fff; transform:translateY(-2px);}
+
+.edu-item h4{margin:0 0 3px; font-size:13.3px; font-weight:600;}
+.edu-item p{margin:0; font-size:12.3px; color:var(--muted); line-height:1.55;}
+
+.lang-list{list-style:none; margin:0; padding:0; font-size:13px;}
+.lang-list li{display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px dashed var(--line); color:var(--muted);}
+.lang-list li strong{color:var(--ink); font-weight:500;}
+.lang-list li:last-child{border-bottom:none;}
+
+.avail-list{list-style:none; margin:0; padding:0;}
+.avail-list li{font-size:12.3px; line-height:1.55; color:var(--muted); padding:8px 0 8px 16px; position:relative; border-bottom:1px dashed var(--line);}
+.avail-list li:last-child{border-bottom:none;}
+.avail-list li::before{content:"→"; position:absolute; left:0; color:var(--purple-500); font-weight:700;}
+.avail-list li strong{color:var(--ink);}
+
+/* ============ MAIN COLUMN ============ */
+.main-col > div{margin-bottom:32px;}
+.main-col p.lead{font-size:14.3px; line-height:1.7; color:var(--muted); margin:0;}
+
+.exp-item{position:relative; padding-left:26px; padding-bottom:26px; border-left:2px solid var(--line);}
+.exp-item:last-child{padding-bottom:0; border-left:2px solid transparent;}
+.exp-item::before{
+  content:""; position:absolute; left:-7px; top:3px;
+  width:12px; height:12px; border-radius:50%;
+  background:var(--purple-500); border:3px solid var(--purple-tint);
+}
+.exp-head{display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:4px 16px;}
+.exp-head h3{margin:0; font-size:15.5px; font-weight:600;}
+.exp-head .dates{font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--purple-500); font-weight:500; white-space:nowrap;}
+.exp-loc{font-size:12.3px; color:var(--muted); margin:2px 0 10px; font-style:italic;}
+.exp-item ul{margin:0; padding-left:18px; font-size:13.1px; line-height:1.6; color:var(--muted);}
+.exp-item ul li{margin-bottom:4px;}
+
+.volunteer p{font-size:13.3px; line-height:1.7; color:var(--muted); margin:0;}
+
+.refs-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; margin-top:4px;}
+.ref-card{background:var(--purple-tint); border-radius:10px; padding:13px 15px;}
+.ref-card h4{margin:0 0 2px; font-size:13px;}
+.ref-card p{margin:0; font-size:11.7px; color:var(--muted); line-height:1.6;}
+
+footer.doc-footer{
+  padding:16px 48px 26px; font-size:10.5px; color:#a9a6c4; text-align:center;
+  border-top:1px solid var(--line); margin-top:8px;
+}
+
+/* ============ PRINT ============ */
+@media print{
+  *{animation:none !important; transition:none !important;}
+  body{background:#fff;}
+  .print-btn{display:none;}
+  .sheet{box-shadow:none; margin:0; max-width:none;}
+  .exp-item, .ref-card, .edu-item{break-inside:avoid; page-break-inside:avoid;}
+  @page{size:A4; margin:13mm;}
+}
+
+/* ============ MOBILE ============ */
+@media (max-width:640px){
+  .layout{grid-template-columns:1fr;}
+  header.hero{flex-direction:column; text-align:center; padding:36px 24px;}
+  .contact-row{justify-content:center;}
+  main{padding:32px 24px;}
+}
+</style>
+<style>
+.avatar-fallback{
+  width:106px;height:106px;border-radius:50%;
+  border:3px solid var(--purple-400);
+  background:linear-gradient(135deg,var(--navy-800),var(--purple-500));
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-family:"Space Grotesk",sans-serif;font-size:28px;font-weight:700;
+  position:relative;z-index:1;flex-shrink:0;
+}
+.avatar{display:none;}
+.avatar.is-visible{display:block;}
+.avatar-fallback.is-hidden{display:none;}
+</style>
+</head>
+<body>
+
+<!-- DATA_INJECTION_POINT -->
+
+<button class="print-btn" onclick="window.print()">Print / Save as PDF</button>
+
+<div class="sheet">
+  <header class="hero">
+    <img class="avatar" id="avatar" alt="">
+    <div class="avatar-fallback" id="avatarFallback">?</div>
+    <div class="headline">
+      <h1 id="name">[NAME]</h1>
+      <p class="role" id="role">[ROLE]</p>
+      <div class="status-badge"><span class="dot"></span><span id="status">[STATUS]</span></div>
+      <div class="contact-row" id="contactRow"></div>
+    </div>
+  </header>
+
+  <main>
+    <div class="layout">
+      <aside class="side">
+        <div>
+          <p class="eyebrow">01</p>
+          <h2 class="section-title">Tech Stack</h2>
+          <div id="techStack"></div>
+        </div>
+        <div>
+          <p class="eyebrow">02</p>
+          <h2 class="section-title">Core Skills</h2>
+          <div class="tags" id="coreSkills"></div>
+        </div>
+        <div>
+          <p class="eyebrow">03</p>
+          <h2 class="section-title">Education</h2>
+          <div id="education"></div>
+        </div>
+        <div>
+          <p class="eyebrow">04</p>
+          <h2 class="section-title">Languages</h2>
+          <ul class="lang-list" id="languages"></ul>
+        </div>
+        <div>
+          <p class="eyebrow">05</p>
+          <h2 class="section-title">Availability</h2>
+          <ul class="avail-list" id="availability"></ul>
+        </div>
+      </aside>
+
+      <div class="main-col">
+        <div>
+          <p class="eyebrow">— About</p>
+          <h2 class="section-title">Summary</h2>
+          <p class="lead" id="summary">[SUMMARY]</p>
+        </div>
+        <div>
+          <p class="eyebrow">— Experience</p>
+          <h2 class="section-title">Where I\'ve Built</h2>
+          <div id="experience"></div>
+        </div>
+        <div class="volunteer">
+          <p class="eyebrow">— Beyond Work</p>
+          <h2 class="section-title">Volunteering</h2>
+          <p id="volunteering">[VOLUNTEERING]</p>
+        </div>
+        <div>
+          <p class="eyebrow">— Contacts</p>
+          <h2 class="section-title">References</h2>
+          <div class="refs-grid" id="references"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="doc-footer" id="footer">[FOOTER]</footer>
+</div>
+
+<script>
+(function () {
+  const data = window.__CV_DATA__ || {};
+  const $ = (id) => document.getElementById(id);
+  const text = (id, value, fallback) => {
+    const el = $(id);
+    if (el) el.textContent = value || fallback;
+  };
+  const esc = (s) => String(s ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+
+  text("name", data.name, "[NAME]");
+  text("role", data.role, "[ROLE]");
+  text("status", data.status, "[STATUS]");
+  text("summary", data.summary, "[SUMMARY]");
+  text("volunteering", data.volunteering, "[VOLUNTEERING]");
+  text("footer", data.footer, "[FOOTER]");
+  document.title = (data.name ? data.name + " — CV" : "CV");
+
+  const avatar = $("avatar");
+  const fallback = $("avatarFallback");
+  if (data.avatar) {
+    avatar.src = data.avatar;
+    avatar.alt = data.name || "Avatar";
+    avatar.classList.add("is-visible");
+    fallback.classList.add("is-hidden");
+  } else if (data.name) {
+    fallback.textContent = data.name.trim().split(/\s+/).map((p) => p[0]).slice(0, 2).join("").toUpperCase();
+  }
+
+  const contact = data.contact || {};
+  const contactBits = [];
+  if (contact.phone) contactBits.push(`<a href="tel:${esc(contact.phone)}">${esc(contact.phone)}</a>`);
+  if (contact.email) contactBits.push(`<a href="mailto:${esc(contact.email)}">${esc(contact.email)}</a>`);
+  if (contact.website) contactBits.push(`<a href="${esc(contact.website)}">${esc(contact.website.replace(/^https?:\/\//, ""))}</a>`);
+  if (contact.location) contactBits.push(`<span>${esc(contact.location)}</span>`);
+  if (contact.linkedin) contactBits.push(`<a href="${esc(contact.linkedin)}">${esc(contact.linkedinLabel || "LinkedIn")}</a>`);
+  if (contact.github) contactBits.push(`<a href="${esc(contact.github)}">${esc(contact.githubLabel || "GitHub")}</a>`);
+  $("contactRow").innerHTML = contactBits.length
+    ? contactBits.join("")
+    : "<span>[PHONE]</span><span>[EMAIL]</span><span>[WEBSITE]</span><span>[LOCATION]</span>";
+
+  const techStack = data.techStack || [];
+  $("techStack").innerHTML = techStack.length
+    ? techStack.map((g) => `
+        <div class="tag-group">
+          <h5>${esc(g.label)}</h5>
+          <div class="tags">${(g.items || []).map((t) => `<span class="tag">${esc(t)}</span>`).join("")}</div>
+        </div>`).join("")
+    : `<div class="tag-group"><h5>[GROUP]</h5><div class="tags"><span class="tag">[TECH]</span></div></div>`;
+
+  const skills = data.coreSkills || [];
+  $("coreSkills").innerHTML = skills.length
+    ? skills.map((s) => `<span class="tag">${esc(s)}</span>`).join("")
+    : `<span class="tag">[SKILL]</span>`;
+
+  const education = data.education || [];
+  $("education").innerHTML = education.length
+    ? education.map((e) => `
+        <div class="edu-item">
+          <h4>${esc(e.title)}</h4>
+          <p>${(e.detail || "").split("\n").map(esc).join("<br>")}</p>
+        </div>`).join("")
+    : `<div class="edu-item"><h4>[EDUCATION_TITLE]</h4><p>[EDUCATION_DETAIL]</p></div>`;
+
+  const languages = data.languages || [];
+  $("languages").innerHTML = languages.length
+    ? languages.map((l) => `<li><strong>${esc(l.name)}</strong><span>${esc(l.level)}</span></li>`).join("")
+    : `<li><strong>[LANGUAGE]</strong><span>[LEVEL]</span></li>`;
+
+  const availability = data.availability || [];
+  $("availability").innerHTML = availability.length
+    ? availability.map((a) => `<li><strong>${esc(a.label)}</strong> — ${esc(a.detail)}</li>`).join("")
+    : `<li><strong>[AVAILABILITY]</strong> — [DETAIL]</li>`;
+
+  const experience = data.experience || [];
+  $("experience").innerHTML = experience.length
+    ? experience.map((e) => `
+        <div class="exp-item">
+          <div class="exp-head"><h3>${esc(e.title)}</h3><span class="dates">${esc(e.dates)}</span></div>
+          <div class="exp-loc">${esc(e.location || "")}</div>
+          <ul>${(e.bullets || []).map((b) => `<li>${esc(b)}</li>`).join("")}</ul>
+        </div>`).join("")
+    : `<div class="exp-item"><div class="exp-head"><h3>[JOB_TITLE]</h3><span class="dates">[DATES]</span></div><div class="exp-loc">[LOCATION]</div><ul><li>[BULLET]</li></ul></div>`;
+
+  const references = data.references || [];
+  $("references").innerHTML = references.length
+    ? references.map((r) => `
+        <div class="ref-card">
+          <h4>${esc(r.name)}</h4>
+          <p>${(r.detail || "").split("\n").map(esc).join("<br>")}</p>
+        </div>`).join("")
+    : `<div class="ref-card"><h4>[REF_NAME]</h4><p>[REF_DETAIL]</p></div>`;
+})();
+</script>
+
+</body>
+</html>

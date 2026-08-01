@@ -20,6 +20,9 @@ node_modules/
 .env.production
 .dev.vars
 
+# private CV payload (use cv.example.json as a starting point)
+cv.json
+
 # logs
 logs/
 *.log

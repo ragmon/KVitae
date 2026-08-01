@@ -74,6 +74,91 @@ gh secret set CLOUDFLARE_ACCOUNT_ID --body "b21935a261bd227400d32c634a32fc20"
 
 Manual deploy from Actions: **Actions** → **Deploy** → **Run workflow**.
 
+## CV content
+
+| File | Purpose |
+|------|---------|
+| `templates/index.html` | Sanitized HTML shell (no personal data). Renders from `window.__CV_DATA__`. |
+| `cv.example.json` | Sample CV payload for KV. |
+| `cv.json` | **Your private CV data** — gitignored. Copy from the example and fill in locally. |
+
+```bash
+cp cv.example.json cv.json
+# edit cv.json with your real data (never commit it)
+```
+
+Upload the template and JSON to the live Worker:
+
+```bash
+curl -X PUT https://your-worker-url.workers.dev/media/index.html \
+  -H "Authorization: Bearer YOUR_SECRET_TOKEN" \
+  -H "Content-Type: text/html" \
+  --data-binary @templates/index.html
+
+curl -X PUT https://your-worker-url.workers.dev/api/cv \
+  -H "Authorization: Bearer YOUR_SECRET_TOKEN" \
+  -H "Content-Type: application/json" \
+  --data-binary @cv.json
+```
+
+### Sample `cv.json`
+
+```json
+{
+  "name": "Jane Doe",
+  "role": "Fullstack Developer · AI & Automation",
+  "status": "Available for projects",
+  "avatar": "/media/avatar.jpg",
+  "contact": {
+    "phone": "+00 0 00 00 00 00",
+    "email": "you@example.com",
+    "website": "https://example.com",
+    "location": "City, Region, Country",
+    "linkedin": "https://www.linkedin.com/in/example",
+    "linkedinLabel": "in/example",
+    "github": "https://github.com/example",
+    "githubLabel": "github/example"
+  },
+  "techStack": [
+    { "label": "Backend", "items": ["NestJS", "Node.js", "Laravel"] },
+    { "label": "Languages", "items": ["TypeScript", "JavaScript", "Python", "SQL"] }
+  ],
+  "coreSkills": ["Backend & API", "AI & Automation", "Microservices"],
+  "education": [
+    {
+      "title": "Bachelor of Computer Science",
+      "detail": "Example University\nCity, Country · 2010–2014"
+    }
+  ],
+  "languages": [
+    { "name": "English", "level": "Fluent" }
+  ],
+  "availability": [
+    { "label": "Freelance / B2B", "detail": "remote or hybrid projects" }
+  ],
+  "summary": "Reliable full-stack developer with a strong backend focus.",
+  "experience": [
+    {
+      "title": "Senior Backend Developer — Example Co",
+      "dates": "2023 – Present",
+      "location": "Remote",
+      "bullets": [
+        "Designed and shipped scalable APIs.",
+        "Improved reliability with automated tests."
+      ]
+    }
+  ],
+  "volunteering": "Contributes to community and open-source initiatives.",
+  "references": [
+    {
+      "name": "Alex Smith",
+      "detail": "Example Co / Engineering Manager\nin/alex-smith"
+    }
+  ],
+  "footer": "Example Development · Reg 00000000 · City, Country"
+}
+```
+
 ## API
 
 | Method | Path | Auth | Description |
