@@ -141,6 +141,26 @@ curl -X PUT https://your-worker-url.workers.dev/api/cv \
   --data-binary @cv.json
 ```
 
+### GDPR: reference contacts
+
+In `cv.json`:
+
+```json
+"privacy": {
+  "showReferenceContacts": false
+}
+```
+
+- `false` (default in the sample): show name + role only; hide phone / email / LinkedIn  
+- `true`: show full reference contact details  
+
+Quick override without editing JSON (share links):
+
+| URL | Effect |
+|-----|--------|
+| `/?contacts=0` | Hide reference contacts |
+| `/?contacts=1` | Show reference contacts |
+
 ### Sample `cv.json`
 
 ```json
@@ -149,6 +169,9 @@ curl -X PUT https://your-worker-url.workers.dev/api/cv \
   "role": "Fullstack Developer · AI & Automation",
   "status": "Available for projects",
   "avatar": "/media/avatar.jpg",
+  "privacy": {
+    "showReferenceContacts": false
+  },
   "contact": {
     "phone": "+00 0 00 00 00 00",
     "email": "you@example.com",
@@ -192,7 +215,10 @@ curl -X PUT https://your-worker-url.workers.dev/api/cv \
   "references": [
     {
       "name": "Alex Smith",
-      "detail": "Example Co / Engineering Manager\nin/alex-smith"
+      "role": "Example Co / Engineering Manager",
+      "phone": "+00 0 00 00 00 00",
+      "email": "alex@example.com",
+      "linkedin": "in/alex-smith"
     }
   ],
   "footer": "Example Development · Reg 00000000 · City, Country"

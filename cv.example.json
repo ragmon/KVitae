@@ -64,10 +64,16 @@
     }
   ],
   "volunteering": "Contributes to community and open-source initiatives outside paid work.",
+  "privacy": {
+    "showReferenceContacts": false
+  },
   "references": [
     {
       "name": "Alex Smith",
-      "detail": "Example Co / Engineering Manager\nin/alex-smith"
+      "role": "Example Co / Engineering Manager",
+      "phone": "+00 0 00 00 00 00",
+      "email": "alex@example.com",
+      "linkedin": "in/alex-smith"
     }
   ],
   "footer": "Example Development · Reg 00000000 · City, Country"

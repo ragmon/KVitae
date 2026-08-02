@@ -356,11 +356,43 @@ footer.doc-footer{
     : `<div class="exp-item"><div class="exp-head"><h3>[JOB_TITLE]</h3><span class="dates">[DATES]</span></div><div class="exp-loc">[LOCATION]</div><ul><li>[BULLET]</li></ul></div>`;
 
   const references = data.references || [];
+  const params = new URLSearchParams(window.location.search);
+  const contactsParam = params.get("contacts");
+  let showReferenceContacts = data.privacy?.showReferenceContacts !== false;
+  if (contactsParam === "0" || contactsParam === "false" || contactsParam === "hide") {
+    showReferenceContacts = false;
+  } else if (contactsParam === "1" || contactsParam === "true" || contactsParam === "show") {
+    showReferenceContacts = true;
+  }
+
+  const formatReferenceBody = (r) => {
+    if (r.role || r.phone || r.email || r.linkedin) {
+      const lines = [];
+      if (r.role) lines.push(esc(r.role));
+      if (showReferenceContacts) {
+        if (r.phone) lines.push(esc(r.phone));
+        if (r.email) lines.push(esc(r.email));
+        if (r.linkedin) lines.push(esc(r.linkedin));
+      } else if (r.role) {
+        // role only already added
+      } else {
+        lines.push("Available on request");
+      }
+      return lines.join("<br>");
+    }
+
+    const detailLines = (r.detail || "").split("\n").filter(Boolean);
+    if (!detailLines.length) return showReferenceContacts ? "[REF_DETAIL]" : "Available on request";
+    if (showReferenceContacts) return detailLines.map(esc).join("<br>");
+    // First line is usually role/company; hide phones/emails/handles after that
+    return esc(detailLines[0]);
+  };
+
   $("references").innerHTML = references.length
     ? references.map((r) => `
         <div class="ref-card">
           <h4>${esc(r.name)}</h4>
-          <p>${(r.detail || "").split("\n").map(esc).join("<br>")}</p>
+          <p>${formatReferenceBody(r)}</p>
         </div>`).join("")
     : `<div class="ref-card"><h4>[REF_NAME]</h4><p>[REF_DETAIL]</p></div>`;
 })();
