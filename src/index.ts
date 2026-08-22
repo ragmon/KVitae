@@ -125,17 +125,54 @@ app.put('/api/cv', withAuth, async (c) => {
   }
 });
 
+const MEDIA_EXTENSION_TYPES: Record<string, string> = {
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
+  png: 'image/png',
+  webp: 'image/webp',
+  gif: 'image/gif',
+  svg: 'image/svg+xml',
+  html: 'text/html; charset=utf-8',
+  css: 'text/css',
+  js: 'text/javascript',
+  json: 'application/json',
+  pdf: 'application/pdf',
+};
+
+function contentTypeFromExtension(filename: string): string {
+  const ext = filename.split('.').pop()?.toLowerCase() ?? '';
+  return MEDIA_EXTENSION_TYPES[ext] ?? 'application/octet-stream';
+}
+
 app.put('/media/:filename', withAuth, async (c) => {
   const filename = c.req.param('filename');
-  const bodyStream = c.req.raw.body;
 
-  if (!bodyStream) {
+  let body: ReadableStream | null;
+  let contentType = c.req.header('content-type') || 'application/octet-stream';
+
+  if (contentType.startsWith('multipart/form-data')) {
+    // PocketBase JSVM can only send binaries as multipart FormData;
+    // accept a "file" part (or the first file part) as the object body.
+    const form = await c.req.raw.formData();
+    const candidate = form.get('file') ?? [...form.values()].find((v) => v instanceof File);
+    if (!(candidate instanceof File)) {
+      return c.json({ success: false, error: 'Multipart body must include a file part' }, 400);
+    }
+    body = candidate.stream();
+    // Multipart parts often arrive without a useful type; fall back to the extension.
+    contentType =
+      candidate.type && candidate.type !== 'application/octet-stream'
+        ? candidate.type
+        : contentTypeFromExtension(filename);
+  } else {
+    body = c.req.raw.body;
+  }
+
+  if (!body) {
     return c.json({ success: false, error: 'Empty body' }, 400);
   }
 
-  const contentType = c.req.header('content-type') || 'application/octet-stream';
-
-  await c.env.CV_BUCKET.put(filename, bodyStream, {
+  await c.env.CV_BUCKET.put(filename, body, {
     httpMetadata: { contentType },
   });
 

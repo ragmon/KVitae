@@ -5,6 +5,30 @@ Serverless CV backend on Cloudflare Workers with KV (JSON data) and R2 (HTML/ass
 **Author:** [Arthur Rahimov](https://github.com/ragmon)  
 **License:** [MIT](./LICENSE)
 
+## Data flow: PocketBase is the source of truth
+
+This Worker serves a **published snapshot**. The CV data itself is managed in
+[custom-pocketbase](https://github.com/Rahimov-Development/custom-pocketbase)
+(`pb.rahimov.dev`), which owns the relational CV collections:
+
+1. Edit profile / experiences / skills in the PocketBase dashboard.
+2. Preview the draft: `GET /api/personal/cv` on PocketBase (superuser).
+3. Publish on demand: `POST /api/personal/cv/publish` on PocketBase (superuser).
+   It composes the CV, `PUT`s the JSON to this Worker's `/api/cv` (KV) and
+   uploads the avatar to `/media/avatar.*` (R2).
+
+Nothing auto-syncs: PocketBase's Redis `cv.updated` events only invalidate its
+composed-CV cache. Hand-editing `cv.json` and `PUT`-ing it still works, but
+PocketBase is authoritative — prefer editing there and re-publishing.
+
+Secrets the PocketBase side needs (its `.env`, see that repo's `.env.example`):
+
+| Variable | Value |
+|----------|-------|
+| `KVITAE_URL` | `https://cv-manager.arthur-ragimov.workers.dev` |
+| `KVITAE_AUTH_SECRET` | This Worker's `AUTH_SECRET` |
+| `CF_ACCESS_CLIENT_ID` / `CF_ACCESS_CLIENT_SECRET` | Access service token (required while `workers.dev` is behind Cloudflare Access) |
+
 ## Setup
 
 ### 1. Install dependencies
@@ -233,7 +257,7 @@ Quick override without editing JSON (share links):
 | `GET` | `/api/cv` | No | Returns CV JSON from KV |
 | `PUT` | `/api/cv` | Bearer | Updates CV JSON in KV |
 | `GET` | `/media/:filename` | No | Serves a file from R2 |
-| `PUT` | `/media/:filename` | Bearer | Uploads a file to R2 |
+| `PUT` | `/media/:filename` | Bearer | Uploads a file to R2 (raw body, or `multipart/form-data` with a `file` part — used by the PocketBase publish flow) |
 
 ## Testing (cURL)
 
