@@ -15,7 +15,9 @@ This Worker serves a **published snapshot**. The CV data itself is managed in
 2. Preview the draft: `GET /api/personal/cv` on PocketBase (superuser).
 3. Publish on demand: `POST /api/personal/cv/publish` on PocketBase (superuser).
    It composes the CV, `PUT`s the JSON to this Worker's `/api/cv` (KV) and
-   uploads the avatar to `/media/avatar.*` (R2).
+   uploads the avatar to `/media/avatar.*` (R2). Use the env-based helper in
+   custom-pocketbase (`scripts/publish-cv.sh`) — do not keep a local
+   `publish.sh` with credentials in this repo.
 
 Nothing auto-syncs: PocketBase's Redis `cv.updated` events only invalidate its
 composed-CV cache. Hand-editing `cv.json` and `PUT`-ing it still works, but
@@ -28,6 +30,15 @@ Secrets the PocketBase side needs (its `.env`, see that repo's `.env.example`):
 | `KVITAE_URL` | `https://cv-manager.arthur-ragimov.workers.dev` |
 | `KVITAE_AUTH_SECRET` | This Worker's `AUTH_SECRET` |
 | `CF_ACCESS_CLIENT_ID` / `CF_ACCESS_CLIENT_SECRET` | Access service token (required while `workers.dev` is behind Cloudflare Access) |
+
+Publish from the PocketBase repo (credentials via env or that repo’s `.env`, never hardcoded):
+
+```bash
+cd ../custom-pocketbase
+PB_URL=https://pb.rahimov.dev \
+PB_SUPERUSER_EMAIL=you@example.com PB_SUPERUSER_PASSWORD='...' \
+./scripts/publish-cv.sh
+```
 
 ## Setup
 
@@ -143,8 +154,8 @@ curl -X PUT https://cv-manager.arthur-ragimov.workers.dev/api/cv \
 | File | Purpose |
 |------|---------|
 | `templates/index.html` | Sanitized HTML shell (no personal data). Renders from `window.__CV_DATA__`. |
-| `cv.example.json` | Sample CV payload for KV. |
-| `cv.json` | **Your private CV data** — gitignored. Copy from the example and fill in locally. |
+| `cv.example.json` | Sanitized sample payload (KV uploads and PocketBase seed). |
+| `cv.json` | **Your private CV data** — gitignored. Copy from the example and fill in locally. Also the preferred input for `custom-pocketbase` `scripts/seed-cv.mjs` (that script clears CV collections then recreates). |
 
 ```bash
 cp cv.example.json cv.json
