@@ -3,7 +3,8 @@
 Serverless CV backend on Cloudflare Workers with KV (JSON data) and R2 (HTML/assets).
 
 **Author:** [Arthur Rahimov](https://github.com/ragmon)  
-**License:** [MIT](./LICENSE)
+**License:** [MIT](./LICENSE)  
+**Repository:** [Rahimov-Development/KVitae](https://github.com/Rahimov-Development/KVitae) (moved from `ragmon/KVitae`)
 
 ## Data flow: PocketBase is the source of truth
 
@@ -289,6 +290,26 @@ curl -X PUT https://your-worker-url.workers.dev/api/cv \
   -H "Content-Type: application/json" \
   -d '{"name": "Your Name", "title": "Full-Stack Developer", "skills": ["Vue.js", "NestJS", "Hono"]}'
 ```
+
+## Linear / Cursor agent access
+
+This Worker is the **published snapshot**. A Linear “Ready for Agent” task can start a Cursor automation against this repo. That is not enough to publish CV data.
+
+Required integrations (names only — never commit values):
+
+| Step | Integration | Where it lives | What the agent needs |
+|------|-------------|----------------|----------------------|
+| 1. Pick up work | Linear | CV Resume project, Rahimov Developer team | Linear MCP; issues in this project with status **Ready for Agent** |
+| 2. Change Worker code | GitHub | `Rahimov-Development/KVitae` | Write access + ability to open a PR to `main` |
+| 3. Deploy Worker code | GitHub Actions | `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` | Secrets already set on this repo; merge to `main` (or `workflow_dispatch`) |
+| 4. Edit CV source | PocketBase | `https://pb.rahimov.dev` | Superuser (`PB_SUPERUSER_EMAIL` / `PB_SUPERUSER_PASSWORD` or `PB_TOKEN`). Collections and `GET /api/personal/cv` are superuser-only |
+| 5. Publish snapshot | PocketBase → this Worker | PocketBase env: `KVITAE_URL`, `KVITAE_AUTH_SECRET`, and `CF_ACCESS_CLIENT_ID` / `CF_ACCESS_CLIENT_SECRET` if the target host is behind Cloudflare Access | `POST /api/personal/cv/publish` (superuser). Auto-publish also runs on current `profile` create/update. Redis `cv.updated` does **not** publish |
+
+The Cursor agent environment does **not** receive PocketBase or Worker secrets. Without those, it can verify public reads and open code PRs, but it cannot run a write-path publish.
+
+Prefer `KVITAE_URL=https://cv-manager.rahimov.dev` for publish. `https://cv-manager.arthur-ragimov.workers.dev` is behind Cloudflare Access; PocketBase then needs the Access service token.
+
+`redis-bridge` is not on the public CV path. It only serves PocketBase cache/streams.
 
 ## License
 

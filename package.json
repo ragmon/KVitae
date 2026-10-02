@@ -6,12 +6,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ragmon/KVitae.git"
+    "url": "git+https://github.com/Rahimov-Development/KVitae.git"
   },
   "bugs": {
-    "url": "https://github.com/ragmon/KVitae/issues"
+    "url": "https://github.com/Rahimov-Development/KVitae/issues"
   },
-  "homepage": "https://github.com/ragmon/KVitae#readme",
+  "homepage": "https://github.com/Rahimov-Development/KVitae#readme",
   "type": "module",
   "scripts": {
     "dev": "wrangler dev",
